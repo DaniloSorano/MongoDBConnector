@@ -12,7 +12,7 @@ init{
         .host = "localhost";
         .dbname ="prova";
         .port = 27017;
-        .timeZone = "Europe/Berlin";
+        .timeZone = "Europe/Rome";
         .jsonStringDebug = true
       };
     connect@MongoDB(connectValue)()

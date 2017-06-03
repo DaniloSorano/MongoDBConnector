@@ -35,7 +35,7 @@ type UpdateRequest:void{
 
 type UpdateResponse:void
 
-type DeleteRequest:void{
+type DbDeleteRequest:void{
   .collection: string
   .filter?:undefined
 }
@@ -61,17 +61,17 @@ type ListCollectionResponse:void{
 interface MongoDBInterface {
   RequestResponse:
   connect (ConnectRequest)(ConnectResponse) throws MongoException ,
-  query   (QueryRequest)(QueryResponse)   throws MongoException JsonParseException ,
-  insert  (InsertRequest)(InsertResponse)   throws MongoException JsonParseException ,
-  update  (UpdateRequest)(UpdateResponse)   throws MongoException JsonParseException ,
-  delete  (DeleteRequest)(DeleteResponse)   throws MongoException JsonParseException ,
-  aggregate (AggregateRequest)(AggregateResponse) throws MongoException JsonParseException
+  query   (QueryRequest)(QueryResponse) throws MongoException JsonParseException ,
+  insert  (InsertRequest)(InsertResponse) throws MongoException JsonParseException ,
+  update  (UpdateRequest)(UpdateResponse) throws MongoException JsonParseException ,
+  delete  (DbDeleteRequest)(DeleteResponse) throws MongoException JsonParseException ,
+  aggregate (AggregateRequest)(AggregateResponse) throws MongoException JsonParseException,
   listCollection(ListCollectionRequest)(ListCollectionResponse) throws MongoException JsonParseException
 }
 
 
 outputPort MongoDB {
-Interfaces: MongoDBInterface
+  Interfaces: MongoDBInterface
 }
 
 embedded {

@@ -117,7 +117,7 @@ public class MongoDbConnector extends JavaService {
                     mongoClient = new MongoClient(serverAddress, credentials);
                     db = mongoClient.getDatabase(dbname);
             }
-            
+
             zone = DateTimeZone.forID(timeZone);
             DateTimeZone.setDefault(zone);
 
@@ -125,7 +125,7 @@ public class MongoDbConnector extends JavaService {
             throw new FaultException("LoginConnection", ex);
         }
     }
-    
+
     @RequestResponse void close (Value request){
        mongoClient.close();
     }
@@ -396,14 +396,14 @@ public class MongoDbConnector extends JavaService {
         return v;
 
     }
-    
+
     @RequestResponse
     public Value dropRole(Value request) {
-        
+
         Value v = Value.create();
         DBObject createRoleObj = new BasicDBObject();
         createRoleObj.put("dropRole", request.getFirstChild("roleName").strValue());
-        
+
         System.out.println(createRoleObj.toString());
         Document response = db.runCommand((Bson) createRoleObj);
 
@@ -441,13 +441,13 @@ public class MongoDbConnector extends JavaService {
              roleObj.put("db", request.getChildren("roles").get(counterRoles).getFirstChild("db").strValue());
            };
            rolesObj.add(roleObj);
-        }  
+        }
         createUserObj.put("roles", rolesObj);
         createUserObj.put("roles",request.getFirstChild("password").strValue());
         Document response = db.runCommand((Bson) createUserObj);
-      return v;          
+      return v;
     }
-    
+
     @RequestResponse
     public Value updateUser (Value request){
       Value v = Value.create();
@@ -461,14 +461,14 @@ public class MongoDbConnector extends JavaService {
              roleObj.put("db", request.getChildren("roles").get(counterRoles).getFirstChild("db").strValue());
            };
            rolesObj.add(roleObj);
-        }  
+        }
         updateUserObj.put("roles", rolesObj);
         updateUserObj.put("roles",request.getFirstChild("password").strValue());
         Document response = db.runCommand((Bson) updateUserObj);
-      return v;          
+      return v;
     }
-    
-    
+
+
     @RequestResponse
     public Value getDBReadConcern() {
         ReadConcern readConcern = db.getReadConcern();
@@ -505,7 +505,6 @@ public class MongoDbConnector extends JavaService {
         Iterator<String> iteratorKeySet = keySet.iterator();
         while (iteratorKeySet.hasNext()) {
             String keyName = iteratorKeySet.next();
-
             if (bsonQueryDocument.isString(keyName)) {
 
                 BsonString conditionValue = bsonQueryDocument.getString(keyName);
@@ -530,11 +529,11 @@ public class MongoDbConnector extends JavaService {
                     }
                     if (request.getFirstChild(conditionValueName).isString()) {
 
-                        BsonString objToInsert = new BsonString(request.getFirstChild(conditionValueName).strValue());
-                        bsonQueryDocument.put(keyName, objToInsert);
+                      BsonString objToInsert = new BsonString(request.getFirstChild(conditionValueName).strValue());
+                      bsonQueryDocument.put(keyName, objToInsert);
 
                     }
-                    if (request.getFirstChild(conditionValueName).hasChildren()) {
+                    /*if (request.getFirstChild(conditionValueName).hasChildren()) {
 
                         if (request.getFirstChild(conditionValueName).hasChildren("@type")) {
 
@@ -545,7 +544,7 @@ public class MongoDbConnector extends JavaService {
                                 bsonQueryDocument.put(keyName, objToInsert);
 
                             }
-                            if (request.getFirstChild(conditionValueName).getFirstChild("@type").strValue().equals("Point")) {
+                            /*if (request.getFirstChild(conditionValueName).getFirstChild("@type").strValue().equals("Point")) {
 
                                 ArrayList<BsonElement> bsonPoint = new ArrayList();
                                 BsonElement typeElement = new BsonElement("type", new BsonString("Point"));
@@ -571,15 +570,13 @@ public class MongoDbConnector extends JavaService {
                                 BsonElement coordinateElement = new BsonElement("coordinates", coordinates);
                                 bsonPoint.add(coordinateElement);
                                 BsonDocument bsonObj = new BsonDocument(bsonPoint);
-
                                 bsonQueryDocument.put(keyName, bsonObj);
 
-                            }
+                            }*/
                         } else {
-
                             bsonQueryDocument.put(keyName, createDocument(request.getFirstChild(conditionValueName)));
                         }
-                    }
+                    }*/
                 }
 
             }
